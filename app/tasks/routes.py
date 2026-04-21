@@ -28,7 +28,7 @@ def get_task(task_id):
         return jsonify({"error": "task not found"}), 404
 
     return jsonify(task), 200
-  
+
 
 @tasks_bp.route("", methods=["POST"])
 def create_task():
@@ -37,14 +37,14 @@ def create_task():
     """
     global next_id
 
-    data = request.json
+    data = request.get_json()
 
     if not data or "title" not in data:
         return jsonify({"error": "title is required"}), 400
 
     task = {
         "id": next_id,
-        "title": data("title"),
+        "title": data["title"],
         "completed": False
     }
 
@@ -62,5 +62,5 @@ def delete_task(task_id):
 
     if not task:
         return jsonify({"error": "task not found"}), 404
-    
+
     return jsonify({"message": "task deleted"}), 200
