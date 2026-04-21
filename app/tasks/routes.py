@@ -1,3 +1,4 @@
+import logging
 from flask import Flask,jsonify,Blueprint,request
 
 tasks_bp = Blueprint("tasks", __name__, url_prefix="/tasks")
@@ -10,7 +11,7 @@ tasks = {
 
 next_id = 4
 
-@tasks_bp.route("", methods=["GET"])
+@tasks_bp.route("/", methods=["GET"])
 def list_tasks():
     """
     Return all tasks
@@ -25,12 +26,13 @@ def get_task(task_id):
     task = tasks.get(task_id)
 
     if not task:
+        tasks_bp.logger.warning(f"Task not found: {task_id}")
         return jsonify({"error": "task not found"}), 404
 
     return jsonify(task), 200
 
 
-@tasks_bp.route("", methods=["POST"])
+@tasks_bp.route("/", methods=["POST"])
 def create_task():
     """
     Create a new task
@@ -40,6 +42,7 @@ def create_task():
     data = request.get_json()
 
     if not data or "title" not in data:
+        tasks_bp.logger.warning("Invalid task creation request")
         return jsonify({"error": "title is required"}), 400
 
     task = {
@@ -51,6 +54,8 @@ def create_task():
     tasks[next_id] = task
     next_id += 1
 
+    tasks_bp.logger.info(f"Task created: {task['id']}")
+
     return jsonify(task), 201
 
 @tasks_bp.route("/<int:task_id>", methods=["DELETE"])
@@ -61,6 +66,9 @@ def delete_task(task_id):
     task = tasks.pop(task_id,None)
 
     if not task:
+        tasks_bp.logger.warning(f"Delete failed, task not found: {task_id}")
         return jsonify({"error": "task not found"}), 404
+
+    tasks_bp.logger.info(f"Task deleted: {task_id}")
 
     return jsonify({"message": "task deleted"}), 200
