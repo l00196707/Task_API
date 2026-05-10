@@ -1,5 +1,7 @@
 import logging
 from flask import Flask, request
+from app.health.routes import health_bp
+from app.tasks.routes import tasks_bp
 
 def create_app():
 
@@ -14,8 +16,7 @@ def create_app():
     def log_request():
         app.logger.info("%s %s", request.method, request.path)
 
-    from app.health.routes import health_bp
-    from app.tasks.routes import tasks_bp
+
 
     app.register_blueprint(health_bp)
     app.register_blueprint(tasks_bp)

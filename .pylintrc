@@ -2,7 +2,8 @@
 disable=
     missing-module-docstring,
     missing-function-docstring,
-    too-few-public-methods
+    too-few-public-methods,
+    unused-import
 
 [FORMAT]
 max-line-length=100
