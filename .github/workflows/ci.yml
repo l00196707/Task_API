@@ -24,6 +24,10 @@ jobs:
                 pip install --upgrade pip
                 pip install -r requirements.txt
 
+            - name: Run pylint
+              run: |
+                pylint app
+
             - name: Run tests
               run: pytest
 

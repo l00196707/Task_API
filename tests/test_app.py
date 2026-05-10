@@ -41,12 +41,12 @@ def test_create_task(client):
 def test_get_task(client):
     create_response = client.post("/tasks", json={"title": "test"})
     assert create_response.status_code == 201
-    
+
     task_id = create_response.get_json()["id"]
 
     get_response = client.get(f"/tasks/{task_id}")
     assert get_response.status_code == 200
-    
+
     data = get_response.get_json()
     assert data["id"] == task_id
     assert data["title"] == "test"
