@@ -2,6 +2,7 @@ import logging
 from flask import Flask, request
 from app.health.routes import health_bp
 from app.tasks.routes import tasks_bp
+from app.metrics.routes import metrics_bp
 
 def create_app():
 
@@ -20,5 +21,6 @@ def create_app():
 
     app.register_blueprint(health_bp)
     app.register_blueprint(tasks_bp)
+    app.register_blueprint(metrics_bp)
 
     return app
