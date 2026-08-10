@@ -1,6 +1,6 @@
 import logging
 import time
-from flask import Flask, request,g
+from flask import Flask, request, g
 from app.health.routes import health_bp
 from app.metrics.metrics import REQUEST_COUNT, REQUEST_LATENCY
 from app.tasks.routes import tasks_bp
@@ -20,7 +20,6 @@ def create_app():
         g.start_time = time.perf_counter()
         g.endpoint = request.url_rule.rule if request.url_rule else "not_found"
         app.logger.info("%s %s", request.method, g.endpoint)
-        
 
     @app.after_request
     def record_metrics(response):

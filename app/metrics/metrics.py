@@ -9,5 +9,5 @@ REQUEST_COUNT = Counter(
 REQUEST_LATENCY = Histogram(
     "http_request_duration_seconds",
     "HTTP request latency",
-    ['method', 'endpoint'],
+    ["method", "endpoint"],
 )
